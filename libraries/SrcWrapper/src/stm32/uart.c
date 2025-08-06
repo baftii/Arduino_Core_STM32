@@ -1475,9 +1475,9 @@ uint32_t uart_getPCLK(UART_HandleTypeDef *huart)
 #elif defined(STM32H7)
     uint32_t sysclk = HAL_RCC_GetSysClockFreq();
 #if defined(STM32H7A3xx) || defined (STM32H7A3xxQ) || defined(STM32H7B3xx) || defined(STM32H7B3xxQ) || defined(STM32H7B0xx) || defined(STM32H7B0xxQ)
-    uint32_t prescaler = (RCC->CDCFGR2 & (0x7UL << 9U)) >> 9U;
+    uint32_t prescaler = (RCC->SRDCFGR & RCC_SRDCFGR_SRDPPRE) >> RCC_SRDCFGR_SRDPPRE_Pos;
 #else
-    uint32_t prescaler = (RCC->D2CFGR & (0x7UL << 9U)) >> 9U;
+    uint32_t prescaler = (RCC->D3CFGR & RCC_D3CFGR_D3PPRE) >> RCC_D3CFGR_D3PPRE_Pos;
 #endif
 
     uint32_t apb4 = 1;
@@ -1521,7 +1521,7 @@ uint32_t uart_getPCLK(UART_HandleTypeDef *huart)
 
 #if defined(STM32WB0)
   uint32_t sysclk = HAL_RCC_GetSysClockFreq();
-  uint32_t ppre2 = (RCC->CFGR & (0x7UL << 11U)) >> 11U;
+  uint32_t ppre2 = (RCC->CFGR & RCC_CFGR_CLKSYSDIV) >> RCC_CFGR_CLKSYSDIV_Pos;
   uint32_t apb2_div = 1;
 
   switch (ppre2) {
